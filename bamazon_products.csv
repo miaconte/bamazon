@@ -1,0 +1,29 @@
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Cards Against Humanity", "Games", 25.00, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Echo Dot", "Entertainment", 29.99, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Instax Mini Film", "Photo & Video", 20.00, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Travel Coffee Mug", "Home & Kitchen", 15.00, "In-Stock on January 24th, 2019");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Sketchpad", "Office Supplies", 10.00, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Floor Lamp", "Home", 32.17, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Guitar Strap", "Musical Instruments", 10.00, "In-Stock on January 18th, 2019");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Guitar Tuner", "Musical Instruments", 9.00, "In-Stock");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Coffee Mug", "Home & Kitchen", 7.00, "Back-Ordered until January 12th, 2019");
+
+INSERT INTO products (product_name, department_name, price, stock_quantity)
+VALUES ("Humidifier", "Home & Lifestyle", 30.00, "In-Stock");

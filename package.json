@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/miaconte/bamazon/issues"
   },
-  "homepage": "https://github.com/miaconte/bamazon#readme"
+  "homepage": "https://github.com/miaconte/bamazon#readme",
+  "dependencies": {
+    "inquire": "^0.4.8",
+    "inquirer": "^6.2.1",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {}
 }
