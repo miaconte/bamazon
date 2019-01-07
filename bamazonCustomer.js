@@ -8,27 +8,46 @@ var connection = mysql.createConnection({
   database: 'bamazonDB'
 });
 
-console.log("You are now connected to Bamazon, Welcome.");
+console.log("\nYou are now connected to Bamazon, Welcome.\n");
 const chalk = require('chalk');
 
 connection.connect(function (err) {
   if (err) throw err;
+  // inventoryList();
   start();
 });
 
-// console.log("------ITEMS FOR SALE-------");
-// console.log("1. Cards Against Humanity");
-// console.log("2. Echo Dot");
-// console.log("3. Instax Mini Film");
-// console.log("4. Travel Coffee Mug");
-// console.log("5. Sketchpad");
-// console.log("6. Floor Lamp");
-// console.log("7. Guitar Strap");
-// console.log("8. Guitar Tuner");
-// console.log("9. Coffee Mug");
-// console.log("10. Humidifier");
+function start(){};
+function inventoryList() {
 
-function start() {
+	// db query string
+	queryStr = 'SELECT * FROM products';
+
+	connection.query(queryStr, function(err, data) {
+		if (err) throw err;
+
+		console.log("\nInventory: ");
+		console.log('---------------------');
+
+		var bamazonInfo = '';
+		for (var i = 0; i < data.length; i++) {
+			bamazonInfo = '';
+			bamazonInfo += 'Item ID: ' + data[i].item_id + ' | ';
+			bamazonInfo += 'Product: ' + data[i].product_name + ' | ';
+			bamazonInfo += 'Department: ' + data[i].department_name + ' | ';
+      bamazonInfo += 'Price: $' + (chalk.green(data[i].price)) + ' | ';
+      bamazonInfo += '' + (chalk.blue(data[i].stock_quantity)) + ", " + (chalk.blue(data[i].stock)) + ' | ';
+
+			console.log(bamazonInfo);
+		}
+
+	  	console.log("---------------------------------------------------------------------\n");
+
+	  	afterInv();
+	})
+}
+
+function afterInv(){
   inquirer.prompt([{
       type: 'input',
       name: 'item_id',
@@ -53,17 +72,18 @@ function start() {
       if (err) throw err;
 
       if (data.length === 0) {
-        console.log('ERROR: Invalid Item ID. Please select a valid Item ID.');
+        console.log((chalk.red('ERROR: Invalid Item ID. Please select a valid Item ID.')));
         inventoryList();
 
       } else {
         var productData = data[0];
 
-        if (quantity <= productData.stock_quantity) {
-          console.log('The product you requested is in stock! Placing order!');
+        if (quantity <= productData.stock) {
+          console.log((chalk.green('The product you requested is in stock! Placing order!')));
+          console.log("--------------------------------------------------------------------------\n");
 
 
-          var updateQueryStr = 'UPDATE products SET stock_quantity = ' + (productData.stock_quantity - quantity) + ' WHERE item_id = ' + item;
+          var updateQueryStr = 'UPDATE products SET stock_quantity = ' + (productData.stock - quantity) + ' WHERE item_id = ' + item;
 
 
           connection.query(updateQueryStr, function (err, data) {
@@ -72,12 +92,13 @@ function start() {
             console.log('Your oder has been placed! Your total is $' + productData.price * quantity);
             console.log('Thank you for shopping with us!');
             console.log("\n---------------------------------------------------------------------\n");
+            
 
             // End the database connection
             connection.end();
           })
         } else {
-          console.log('Sorry, there is not enough product in stock.');
+          console.log((chalk.red('Sorry, there is not enough product in stock.')));
           console.log('Please modify your order.');
           console.log("\n---------------------------------------------------------------------\n");
 
@@ -87,38 +108,10 @@ function start() {
     })
   })
 }
-function inventoryList() {
 
-	// db query string
-	queryStr = 'SELECT * FROM products';
-
-	connection.query(queryStr, function(err, data) {
-		if (err) throw err;
-
-		console.log('Inventory: ');
-		console.log('---------------------\n');
-
-		var bamazonInfo = '';
-		for (var i = 0; i < data.length; i++) {
-			bamazonInfo = '';
-			bamazonInfo += 'Item ID: ' + data[i].item_id + ' | ';
-			bamazonInfo += 'Product: ' + data[i].product_name + ' | ';
-			bamazonInfo += 'Department: ' + data[i].department_name + ' | ';
-      bamazonInfo += 'Price: $' + (chalk.green(data[i].price)) + ' | ';
-      bamazonInfo += '' + (chalk.blue(data[i].stock_quantity)) + ", " + (chalk.blue(data[i].stock)) + ' | ';
-
-			console.log(bamazonInfo);
-		}
-
-	  	console.log("---------------------------------------------------------------------\n");
-
-	  	promptUserPurchase();
-	})
-}
-
-function runBamazon() {
+function bamazon() {
 
 	inventoryList();
 }
 
-runBamazon();
+bamazon();
