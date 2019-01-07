@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var inquirer = require("inquirer");
+const chalk = require('chalk');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -9,7 +10,6 @@ var connection = mysql.createConnection({
 });
 
 console.log("\nYou are now connected to Bamazon, Welcome.\n");
-const chalk = require('chalk');
 
 connection.connect(function (err) {
   if (err) throw err;
@@ -51,7 +51,7 @@ function afterInv(){
   inquirer.prompt([{
       type: 'input',
       name: 'item_id',
-      message: 'Please choose which item you would like to purchase, using the number they are ordered.',
+      message: 'Please choose which item you would like to purchase, using the Item ID in which they are ordered.',
       choices: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
     },
     {
@@ -79,7 +79,7 @@ function afterInv(){
         var productData = data[0];
 
         if (quantity <= productData.stock) {
-          console.log((chalk.green('The product you requested is in stock! Placing order!')));
+          console.log((chalk.green("The product you requested is in stock, placing order now!")));
           console.log("--------------------------------------------------------------------------\n");
 
 
@@ -89,8 +89,8 @@ function afterInv(){
           connection.query(updateQueryStr, function (err, data) {
             if (err) throw err;
 
-            console.log('Your oder has been placed! Your total is $' + productData.price * quantity);
-            console.log('Thank you for shopping with us!');
+            console.log("Your order has been placed! Your total is $" + productData.price * quantity);
+            console.log("Thank you for shopping with us!");
             console.log("\n---------------------------------------------------------------------\n");
             
 
