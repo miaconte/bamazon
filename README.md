@@ -1,6 +1,6 @@
 # bamazon
 
-Hello! Welcome to Bamazon, a command line interface for all of your command-linw purchase needs. 
+Hello! Welcome to Bamazon, a command line interface for all of your command-line purchase needs. 
 In order to use the application, follow the prompts request. Each item is identified by a unique Item ID,
 once the list appears, type the Item ID that is attached to the desired purchase. 
 
