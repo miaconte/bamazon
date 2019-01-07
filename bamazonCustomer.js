@@ -9,6 +9,7 @@ var connection = mysql.createConnection({
 });
 
 console.log("You are now connected to Bamazon, Welcome.");
+const chalk = require('chalk');
 
 connection.connect(function (err) {
   if (err) throw err;
@@ -29,11 +30,6 @@ connection.connect(function (err) {
 
 function start() {
   inquirer.prompt([{
-      type: "input",
-      name: "us",
-      message: "Welcome to Bamazon, What is your name?"
-    },
-    {
       type: 'input',
       name: 'item_id',
       message: 'Please choose which item you would like to purchase, using the number they are ordered.',
@@ -81,7 +77,7 @@ function start() {
             connection.end();
           })
         } else {
-          console.log('Sorry, there is not enough product in stock, your order can not be placed as is.');
+          console.log('Sorry, there is not enough product in stock.');
           console.log('Please modify your order.');
           console.log("\n---------------------------------------------------------------------\n");
 
@@ -92,43 +88,37 @@ function start() {
   })
 }
 function inventoryList() {
-	// console.log('___ENTER inventoryList___');
 
-	// Construct the db query string
+	// db query string
 	queryStr = 'SELECT * FROM products';
 
-	// Make the db query
 	connection.query(queryStr, function(err, data) {
 		if (err) throw err;
 
-		console.log('Existing Inventory: ');
-		console.log('...................\n');
+		console.log('Inventory: ');
+		console.log('---------------------\n');
 
-		var strOut = '';
+		var bamazonInfo = '';
 		for (var i = 0; i < data.length; i++) {
-			strOut = '';
-			strOut += 'Item ID: ' + data[i].item_id + '  //  ';
-			strOut += 'Product Name: ' + data[i].product_name + '  //  ';
-			strOut += 'Department: ' + data[i].department_name + '  //  ';
-			strOut += 'Price: $' + data[i].price + '\n';
+			bamazonInfo = '';
+			bamazonInfo += 'Item ID: ' + data[i].item_id + ' | ';
+			bamazonInfo += 'Product: ' + data[i].product_name + ' | ';
+			bamazonInfo += 'Department: ' + data[i].department_name + ' | ';
+      bamazonInfo += 'Price: $' + (chalk.green(data[i].price)) + ' | ';
+      bamazonInfo += '' + (chalk.blue(data[i].stock_quantity)) + ", " + (chalk.blue(data[i].stock)) + ' | ';
 
-			console.log(strOut);
+			console.log(bamazonInfo);
 		}
 
 	  	console.log("---------------------------------------------------------------------\n");
 
-	  	//Prompt the user for item/quantity they would like to purchase
 	  	promptUserPurchase();
 	})
 }
 
-// runBamazon will execute the main application logic
 function runBamazon() {
-	// console.log('___ENTER runBamazon___');
 
-	// Display the available inventory
 	inventoryList();
 }
 
-// Run the application logic
 runBamazon();
